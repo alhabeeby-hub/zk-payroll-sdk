@@ -111,3 +111,44 @@ if (!report.valid) {
   console.error('Policy effective date violations:', report.violations);
 }
 ```
+
+## Payout Precision Verification (#740)
+
+Payout amounts must be representable exactly in the asset's smallest unit. The
+`verifyPayoutPrecision` / `verifyPayoutPrecisionBatch` helpers reject amounts
+with non-zero digits beyond the asset's precision (e.g. `"1250.50000001"` for
+7-decimal XLM) instead of silently rounding them, and flag unsafe `number`
+inputs, invalid/negative/zero amounts, unknown assets, invalid decimals, and
+amounts outside the configured `i128` bounds.
+
+### Usage
+
+```typescript
+import { verifyPayoutPrecisionBatch, assertPayoutPrecision } from '@zk-payroll/core';
+
+// Preflight an approved payroll payload.
+const report = verifyPayoutPrecisionBatch(payrollEntries, {
+  maxAmount: 100_000_000_000n,
+});
+
+if (!report.isValid) {
+  // report.issues[i].entryIndex identifies the offending payroll row.
+  console.error(report.summary.excessPrecisionCount, report.issues);
+}
+
+// Fail fast while building payout instructions.
+const { amount } = assertPayoutPrecision(
+  { employeeId: 'emp-12345', amount: '1250.50', asset: 'native' },
+  { maxAmount: 100_000_000_000n }
+); // => 12_505_000_000n stroops
+```
+
+Amounts can be supplied as canonical `bigint` smallest units, decimal strings
+(`"1,250.50 XLM"`, `"1e-7"`), or safe JavaScript numbers. Rounding is opt-in via
+`allowRounding` (with `RoundingMode.HALF_UP | TRUNCATE | CEIL | FLOOR`) and is
+reported through `wasRounded`.
+
+See [`packages/core/docs/payout-precision-verification.md`](../packages/core/docs/payout-precision-verification.md)
+for the full option table, issue codes, redaction guarantees, and integration
+guidance.
+
