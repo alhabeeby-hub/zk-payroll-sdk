@@ -1,9 +1,11 @@
 node_modules
 dist
 coverage
-.env
 .DS_Store
-.vscode
 .idea
 docs/api
 .turbo
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
