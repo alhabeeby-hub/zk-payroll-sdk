@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "node init && rimraf dist && tsc",
     "test": "jest --config jest.node.config.js --runInBand",
     "test:browser": "jest --config jest.browser.config.js --runInBand",
     "test:env-matrix": "npm run test && npm run test:browser",
