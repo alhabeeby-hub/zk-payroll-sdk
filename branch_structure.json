@@ -1,0 +1,21 @@
+{
+  "default_branch": "dev",
+  "branches": [
+    "dev",
+    "feat/740-sdk-payout-precision-verification",
+    "feat/issue-740-create-sdk-payout-precision-verification",
+    "origin"
+  ],
+  "parent": {
+    "dev": null,
+    "feat/740-sdk-payout-precision-verification": "dev",
+    "feat/issue-740-create-sdk-payout-precision-verification": "dev",
+    "origin": "dev"
+  },
+  "order": [
+    "dev",
+    "feat/740-sdk-payout-precision-verification",
+    "feat/issue-740-create-sdk-payout-precision-verification",
+    "origin"
+  ]
+}
