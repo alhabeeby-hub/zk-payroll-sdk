@@ -1,9 +1,8 @@
 node_modules
 dist
 coverage
-.env
 .DS_Store
-.vscode
 .idea
 docs/api
 .turbo
+config.bat
